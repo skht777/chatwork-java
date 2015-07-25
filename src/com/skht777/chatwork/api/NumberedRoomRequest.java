@@ -12,10 +12,10 @@ import com.skht777.chatwork.parameter.IconPreset;
  */
 public interface NumberedRoomRequest {
 
-	Room getRoom();
-	
+	NumberedRoom getRoom();
+
 	void editRoom(String name, String description, IconPreset icon);
-	
+
 	void deleteRoom(ActionType action);
-	
+
 }

@@ -14,7 +14,7 @@ import com.skht777.chatwork.parameter.IconPreset;
  */
 public interface RoomsRequest {
 
-	List<Room> getRooms();
-	
+	List<NumberedRoom> getRooms();
+
 	RoomClient createRoom(String name, int[] admins, int[] members, int[] readOnlyMembers, String description, IconPreset icon);
 }

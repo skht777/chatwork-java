@@ -14,5 +14,5 @@ import com.skht777.chatwork.parameter.Status;
 public interface MyTasksRequest {
 
 	List<MyTask> getMyTasks(int assignedByAccountId, Status status);
-	
+
 }
