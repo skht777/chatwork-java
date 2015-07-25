@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.skht777.chatwork.api;
+package com.skht777.chatwork.impl;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;

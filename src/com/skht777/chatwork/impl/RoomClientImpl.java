@@ -1,18 +1,19 @@
 /**
  * 
  */
-package com.skht777.chatwork;
+package com.skht777.chatwork.impl;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
+import com.skht777.chatwork.RoomClient;
 import com.skht777.chatwork.api.File;
 import com.skht777.chatwork.api.Member;
 import com.skht777.chatwork.api.Message;
 import com.skht777.chatwork.api.Room;
 import com.skht777.chatwork.api.Task;
+import com.skht777.chatwork.parameter.ActionType;
 import com.skht777.chatwork.parameter.IconPreset;
 import com.skht777.chatwork.parameter.Role;
 import com.skht777.chatwork.parameter.Status;
@@ -21,14 +22,15 @@ import com.skht777.chatwork.parameter.Status;
  * @author skht777
  *
  */
-class RoomClientImpl implements RoomClient {
+class RoomClientImpl extends ClientBase implements RoomClient {
 
 	private int roomId;
 
 	/**
 	 * 
 	 */
-	public RoomClientImpl(int roomId) {
+	RoomClientImpl(int roomId) {
+		super();
 		this.roomId = roomId;
 	}
 
@@ -38,13 +40,16 @@ class RoomClientImpl implements RoomClient {
 	}
 
 	@Override
-	public Room editRoom(String name, String description, IconPreset icon) {
-		return null;
+	public void editRoom(String name, String description, IconPreset icon) {
 	}
 
 	@Override
-	public Map<Role, List<Integer>> editMembers(IntStream admins,
-			IntStream members, IntStream readOnlyMembers) {
+	public void deleteRoom(ActionType action) {
+	}
+
+	@Override
+	public Map<Role, List<Integer>> editMembers(int[] admins, int[] members,
+			int[] readOnlyMembers) {
 		return null;
 	}
 
@@ -75,7 +80,7 @@ class RoomClientImpl implements RoomClient {
 	}
 
 	@Override
-	public Task createTask(String body, IntStream toIds, Date limit) {
+	public Task createTask(String body, int[] toIds, LocalDate limit) {
 		return null;
 	}
 
@@ -85,12 +90,12 @@ class RoomClientImpl implements RoomClient {
 	}
 
 	@Override
-	public List<File> getFiles(int accountId) {
+	public File getFile(int fileId, boolean isDownload) {
 		return null;
 	}
 
 	@Override
-	public File getFile(int fileId, boolean isDownload) {
+	public List<File> getFiles(int accountId) {
 		return null;
 	}
 

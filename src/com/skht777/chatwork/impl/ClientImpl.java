@@ -1,17 +1,17 @@
 /**
  * 
  */
-package com.skht777.chatwork;
+package com.skht777.chatwork.impl;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
+import com.skht777.chatwork.Client;
+import com.skht777.chatwork.RoomClient;
 import com.skht777.chatwork.api.Contact;
 import com.skht777.chatwork.api.Me;
 import com.skht777.chatwork.api.MyStatus;
 import com.skht777.chatwork.api.MyTask;
 import com.skht777.chatwork.api.Room;
-import com.skht777.chatwork.parameter.ActionType;
 import com.skht777.chatwork.parameter.IconPreset;
 import com.skht777.chatwork.parameter.Status;
 
@@ -19,19 +19,13 @@ import com.skht777.chatwork.parameter.Status;
  * @author skht777
  *
  */
-class ClientImpl implements Client {
-
-	private String token;
+class ClientImpl extends ClientBase implements Client {
 
 	/**
 	 * 
 	 */
-	ClientImpl(String token) {
-		this.token = token;
-	}
-
-	String getToken() {
-		return token;
+	ClientImpl() {
+		super();
 	}
 
 	@Override
@@ -55,23 +49,14 @@ class ClientImpl implements Client {
 	}
 
 	@Override
-	public Room createRoom(String name, IntStream admins, IntStream members,
-			IntStream readOnlyMembers, String description, IconPreset icon) {
+	public RoomClient createRoom(String name, int[] admins, int[] members,
+			int[] readOnlyMembers, String description, IconPreset icon) {
 		return null;
 	}
 
 	@Override
 	public List<Room> getRooms() {
 		return null;
-	}
-
-	@Override
-	public RoomClient getRoomClient(int roomId) {
-		return null;
-	}
-
-	@Override
-	public void deleteRoom(int roomId, ActionType action) {
 	}
 
 }

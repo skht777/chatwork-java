@@ -4,14 +4,13 @@
 package com.skht777.chatwork;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
-import com.skht777.chatwork.api.Contact;
-import com.skht777.chatwork.api.Me;
-import com.skht777.chatwork.api.MyStatus;
+import com.skht777.chatwork.api.ContactsRequest;
+import com.skht777.chatwork.api.MeRequest;
+import com.skht777.chatwork.api.MyStatusRequest;
 import com.skht777.chatwork.api.MyTask;
-import com.skht777.chatwork.api.Room;
-import com.skht777.chatwork.parameter.ActionType;
+import com.skht777.chatwork.api.MyTasksRequest;
+import com.skht777.chatwork.api.RoomsRequest;
 import com.skht777.chatwork.parameter.IconPreset;
 import com.skht777.chatwork.parameter.Status;
 
@@ -19,9 +18,7 @@ import com.skht777.chatwork.parameter.Status;
  * @author skht777
  *
  */
-interface Client {
-
-	Me getAccount();
+public interface Client extends MeRequest, MyTasksRequest, MyStatusRequest, ContactsRequest, RoomsRequest {
 
 	default List<MyTask> getMyTasks() {
 		return getMyTasks(0, null);
@@ -35,78 +32,64 @@ interface Client {
 		return getMyTasks(0, status);
 	}
 
-	List<MyTask> getMyTasks(int assignedByAccountId, Status status);
-
-	MyStatus getMyStatus();
-
-	List<Contact> getContacts();
-
-	default Room createRoom(String name, IntStream admins) {
+	default RoomClient createRoom(String name, int[] admins) {
 		return createRoom(name, admins, null, null, null, null);
 	}
 
-	default Room createRoom(String name, IntStream admins, String description) {
+	default RoomClient createRoom(String name, int[] admins, String description) {
 		return createRoom(name, admins, null, null, description, null);
 	}
 
-	default Room createRoom(String name, IntStream admins, IconPreset icon) {
+	default RoomClient createRoom(String name, int[] admins, IconPreset icon) {
 		return createRoom(name, admins, null, null, null, icon);
 	}
 
-	default Room createRoom(String name, IntStream admins, String description, IconPreset icon) {
+	default RoomClient createRoom(String name, int[] admins, String description, IconPreset icon) {
 		return createRoom(name, admins, null, null, description, icon);
 	}
 
-	default Room createRoom(String name, IntStream admins, IntStream members, IntStream readOnlyMembers) {
+	default RoomClient createRoom(String name, int[] admins, int[] members, int[] readOnlyMembers) {
 		return createRoom(name, admins, members, readOnlyMembers, null, null);
 	}
 
-	default Room createRoom(String name, IntStream admins, IntStream members, IntStream readOnlyMembers, String description) {
+	default RoomClient createRoom(String name, int[] admins, int[] members, int[] readOnlyMembers, String description) {
 		return createRoom(name, admins, members, readOnlyMembers, description, null);
 	}
 
-	default Room createRoom(String name, IntStream admins, IntStream members, IntStream readOnlyMembers, IconPreset icon) {
+	default RoomClient createRoom(String name, int[] admins, int[] members, int[] readOnlyMembers, IconPreset icon) {
 		return createRoom(name, admins, members, readOnlyMembers, null, icon);
 	}
 
-	default Room createRoomWithMember(String name, IntStream admins, IntStream members) {
+	default RoomClient createRoomWithMember(String name, int[] admins, int[] members) {
 		return createRoom(name, admins, members, null, null, null);
 	}
 
-	default Room createRoomWithMember(String name, IntStream admins, IntStream members, String description) {
+	default RoomClient createRoomWithMember(String name, int[] admins, int[] members, String description) {
 		return createRoom(name, admins, members, null, description, null);
 	}
 
-	default Room createRoomWithMember(String name, IntStream admins, IntStream members, IconPreset icon) {
+	default RoomClient createRoomWithMember(String name, int[] admins, int[] members, IconPreset icon) {
 		return createRoom(name, admins, members, null, null, icon);
 	}
 
-	default Room createRoomWithMember(String name, IntStream admins, IntStream members, String description, IconPreset icon) {
+	default RoomClient createRoomWithMember(String name, int[] admins, int[] members, String description, IconPreset icon) {
 		return createRoom(name, admins, members, null, description, icon);
 	}
 
-	default Room createRoomWithReadOnlyMember(String name, IntStream admins, IntStream readOnlyMembers) {
+	default RoomClient createRoomWithReadOnlyMember(String name, int[] admins, int[] readOnlyMembers) {
 		return createRoom(name, admins, null, readOnlyMembers, null, null);
 	}
 
-	default Room createRoomWithReadOnlyMember(String name, IntStream admins, IntStream readOnlyMembers, String description) {
+	default RoomClient createRoomWithReadOnlyMember(String name, int[] admins, int[] readOnlyMembers, String description) {
 		return createRoom(name, admins, null, readOnlyMembers, description, null);
 	}
 
-	default Room createRoomWithReadOnlyMember(String name, IntStream admins, IntStream readOnlyMembers, IconPreset icon) {
+	default RoomClient createRoomWithReadOnlyMember(String name, int[] admins, int[] readOnlyMembers, IconPreset icon) {
 		return createRoom(name, admins, null, readOnlyMembers, null, icon);
 	}
 
-	default Room createRoomWithReadOnlyMember(String name, IntStream admins, IntStream readOnlyMembers, String description, IconPreset icon) {
+	default RoomClient createRoomWithReadOnlyMember(String name, int[] admins, int[] readOnlyMembers, String description, IconPreset icon) {
 		return createRoom(name, admins, null, readOnlyMembers, description, icon);
 	}
-
-	Room createRoom(String name, IntStream admins, IntStream members, IntStream readOnlyMembers, String description, IconPreset icon);
-
-	List<Room> getRooms();
-
-	RoomClient getRoomClient(int roomId);
-
-	void deleteRoom(int roomId, ActionType action);
 
 }
