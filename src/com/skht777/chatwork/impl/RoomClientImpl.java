@@ -11,7 +11,7 @@ import com.skht777.chatwork.RoomClient;
 import com.skht777.chatwork.api.File;
 import com.skht777.chatwork.api.Member;
 import com.skht777.chatwork.api.Message;
-import com.skht777.chatwork.api.Room;
+import com.skht777.chatwork.api.NumberedRoom;
 import com.skht777.chatwork.api.Task;
 import com.skht777.chatwork.parameter.ActionType;
 import com.skht777.chatwork.parameter.IconPreset;
@@ -35,7 +35,7 @@ class RoomClientImpl extends ClientBase implements RoomClient {
 	}
 
 	@Override
-	public Room getRoom() {
+	public NumberedRoom getRoom() {
 		return null;
 	}
 
