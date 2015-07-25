@@ -7,8 +7,8 @@ package com.skht777.chatwork.api;
  * @author skht777
  *
  */
-interface Room {
+interface Role {
 
-	RoomAccount getRoom();
+	Role getRole();
 
 }

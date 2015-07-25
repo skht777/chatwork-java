@@ -9,8 +9,10 @@ import java.net.URL;
  * @author skht777
  *
  */
-public interface File extends Files {
+public interface UserAccount extends Name {
 
-	URL getDownloadUrl();
+	int getAccountId();
+
+	URL AvatarImageUrl();
 
 }

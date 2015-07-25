@@ -9,8 +9,8 @@ import java.net.URL;
  * @author skht777
  *
  */
-public interface File extends Files {
+public interface RoomAccount extends RoomId, Name {
 
-	URL getDownloadUrl();
+	URL getIconPath();
 
 }
