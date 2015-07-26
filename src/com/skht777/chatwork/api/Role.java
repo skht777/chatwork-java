@@ -9,6 +9,6 @@ package com.skht777.chatwork.api;
  */
 interface Role {
 
-	Role getRole();
+	com.skht777.chatwork.parameter.Role getRole();
 
 }
