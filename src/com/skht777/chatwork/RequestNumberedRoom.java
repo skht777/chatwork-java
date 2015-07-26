@@ -11,7 +11,7 @@ import com.skht777.chatwork.parameter.IconPreset;
  * @author skht777
  *
  */
-public interface NumberedRoomRequest {
+public interface RequestNumberedRoom {
 
 	NumberedRoom getRoom();
 

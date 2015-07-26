@@ -11,7 +11,7 @@ import com.skht777.chatwork.api.Message;
  * @author skht777
  *
  */
-public interface MessagesRequest {
+public interface RequestMessages {
 
 	Message createMessage(String body);
 

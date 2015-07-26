@@ -13,7 +13,7 @@ import com.skht777.chatwork.parameter.Status;
  * @author skht777
  *
  */
-public interface TasksRequest {
+public interface RequestTasks {
 
 	List<Task> getTasks(int accountId, int assignedByAccountId, Status status);
 

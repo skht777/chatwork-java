@@ -11,7 +11,7 @@ import com.skht777.chatwork.api.File;
  * @author skht777
  *
  */
-public interface FilesRequest {
+public interface RequestFiles {
 
 	File getFile(int fileId, boolean isDownload);
 

@@ -8,14 +8,11 @@ package com.skht777.chatwork.impl;
  *
  */
 class ClientBase {
-
-	ChatworkRequest request;
 	
 	/**
 	 * 
 	 */
 	protected ClientBase() {
-		request = new ChatworkRequest();
 	}
 
 }

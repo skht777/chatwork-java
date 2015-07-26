@@ -13,7 +13,7 @@ import com.skht777.chatwork.parameter.Role;
  * @author skht777
  *
  */
-public interface MembersRequest {
+public interface RequestMembers {
 
 	Map<Role, List<Integer>> editMembers(int[] admins, int[] members, int[] readOnlyMembers);
 

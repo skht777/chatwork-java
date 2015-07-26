@@ -10,7 +10,7 @@ import com.skht777.chatwork.api.Me;
  * @author skht777
  *
  */
-public interface MeRequest {
+public interface RequestMe {
 
 	Me getAccount();
 

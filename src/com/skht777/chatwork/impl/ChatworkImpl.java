@@ -5,7 +5,7 @@ package com.skht777.chatwork.impl;
 
 import com.skht777.chatwork.Chatwork;
 import com.skht777.chatwork.Client;
-import com.skht777.chatwork.RoomClient;
+import com.skht777.chatwork.NumberedRoomClient;
 
 /**
  * @author skht777
@@ -14,7 +14,7 @@ import com.skht777.chatwork.RoomClient;
 class ChatworkImpl implements Chatwork {
 
 	private String token;
-	
+
 	/**
 	 * 
 	 */
@@ -22,13 +22,21 @@ class ChatworkImpl implements Chatwork {
 		this.token = token;
 	}
 
+	/*
+	 * (非 Javadoc)
+	 * @see com.skht777.chatwork.Chatwork#getClient()
+	 */
 	@Override
 	public Client getClient() {
 		return null;
 	}
 
+	/*
+	 * (非 Javadoc)
+	 * @see com.skht777.chatwork.Chatwork#getRoomClient(int)
+	 */
 	@Override
-	public RoomClient getRoomClient(int roomId) {
+	public NumberedRoomClient getRoomClient(int roomId) {
 		return null;
 	}
 

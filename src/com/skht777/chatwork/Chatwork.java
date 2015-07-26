@@ -11,6 +11,6 @@ public interface Chatwork {
 	
 	Client getClient();
 	
-	RoomClient getRoomClient(int roomId);
+	NumberedRoomClient getRoomClient(int roomId);
 
 }

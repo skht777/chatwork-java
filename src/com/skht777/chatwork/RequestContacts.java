@@ -11,7 +11,7 @@ import com.skht777.chatwork.api.Contact;
  * @author skht777
  *
  */
-public interface ContactsRequest {
+public interface RequestContacts {
 
 	List<Contact> getContacts();
 

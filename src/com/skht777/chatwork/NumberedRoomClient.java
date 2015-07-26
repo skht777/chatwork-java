@@ -17,7 +17,7 @@ import com.skht777.chatwork.parameter.Status;
  * @author skht777
  *
  */
-public interface RoomClient extends NumberedRoomRequest, MembersRequest, MessagesRequest, TasksRequest, FilesRequest {
+public interface NumberedRoomClient extends RequestNumberedRoom, RequestMembers, RequestMessages, RequestTasks, RequestFiles {
 
 	default void editRoomName(String name) {
 		editRoom(name, null, null);
