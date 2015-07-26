@@ -1,11 +1,11 @@
 /**
  * 
  */
-package com.skht777.chatwork.api;
+package com.skht777.chatwork;
 
 import java.util.List;
 
-import com.skht777.chatwork.RoomClient;
+import com.skht777.chatwork.api.NumberedRoom;
 import com.skht777.chatwork.parameter.IconPreset;
 
 /**

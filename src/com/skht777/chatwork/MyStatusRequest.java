@@ -1,7 +1,9 @@
 /**
  * 
  */
-package com.skht777.chatwork.api;
+package com.skht777.chatwork;
+
+import com.skht777.chatwork.api.MyStatus;
 
 
 /**

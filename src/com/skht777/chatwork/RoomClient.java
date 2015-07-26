@@ -7,13 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.skht777.chatwork.api.File;
-import com.skht777.chatwork.api.FilesRequest;
-import com.skht777.chatwork.api.MembersRequest;
 import com.skht777.chatwork.api.Message;
-import com.skht777.chatwork.api.MessagesRequest;
-import com.skht777.chatwork.api.NumberedRoomRequest;
 import com.skht777.chatwork.api.Task;
-import com.skht777.chatwork.api.TasksRequest;
 import com.skht777.chatwork.parameter.IconPreset;
 import com.skht777.chatwork.parameter.Role;
 import com.skht777.chatwork.parameter.Status;

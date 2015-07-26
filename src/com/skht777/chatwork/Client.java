@@ -5,12 +5,7 @@ package com.skht777.chatwork;
 
 import java.util.List;
 
-import com.skht777.chatwork.api.ContactsRequest;
-import com.skht777.chatwork.api.MeRequest;
-import com.skht777.chatwork.api.MyStatusRequest;
 import com.skht777.chatwork.api.MyTask;
-import com.skht777.chatwork.api.MyTasksRequest;
-import com.skht777.chatwork.api.RoomsRequest;
 import com.skht777.chatwork.parameter.IconPreset;
 import com.skht777.chatwork.parameter.Status;
 

@@ -1,11 +1,12 @@
 /**
  * 
  */
-package com.skht777.chatwork.api;
+package com.skht777.chatwork;
 
 import java.util.List;
 import java.util.Map;
 
+import com.skht777.chatwork.api.Member;
 import com.skht777.chatwork.parameter.Role;
 
 /**

@@ -1,11 +1,12 @@
 /**
  * 
  */
-package com.skht777.chatwork.api;
+package com.skht777.chatwork;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import com.skht777.chatwork.api.Task;
 import com.skht777.chatwork.parameter.Status;
 
 /**
