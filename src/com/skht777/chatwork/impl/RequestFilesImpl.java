@@ -12,12 +12,15 @@ import com.skht777.chatwork.api.File;
  * @author skht777
  *
  */
-class RequestFilesImpl extends ChatworkRequest implements RequestFiles {
+class RequestFilesImpl extends ChatworkRequest implements RequestFiles {	
 
 	/**
 	 * 
+	 * @param token
+	 * @param roomId
 	 */
-	public RequestFilesImpl() {
+	protected RequestFilesImpl(APIToken token, int roomId) {
+		super(token, roomId);
 	}
 
 	/* (非 Javadoc)

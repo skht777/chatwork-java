@@ -16,8 +16,10 @@ class RequestContactsImpl extends ChatworkRequest implements RequestContacts {
 
 	/**
 	 * 
+	 * @param token
 	 */
-	public RequestContactsImpl() {
+	RequestContactsImpl(APIToken token) {
+		super(token);
 	}
 
 	/* (非 Javadoc)

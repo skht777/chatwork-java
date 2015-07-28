@@ -16,8 +16,11 @@ public class RequestMessagesImpl extends ChatworkRequest implements RequestMessa
 
 	/**
 	 * 
+	 * @param token
+	 * @param roomId
 	 */
-	public RequestMessagesImpl() {
+	protected RequestMessagesImpl(APIToken token, int roomId) {
+		super(token, roomId);
 	}
 
 	/* (非 Javadoc)

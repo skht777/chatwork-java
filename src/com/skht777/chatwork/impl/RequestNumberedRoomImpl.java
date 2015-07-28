@@ -16,8 +16,11 @@ class RequestNumberedRoomImpl extends ChatworkRequest implements RequestNumbered
 
 	/**
 	 * 
+	 * @param token
+	 * @param roomId
 	 */
-	public RequestNumberedRoomImpl() {
+	protected RequestNumberedRoomImpl(APIToken token, int roomId) {
+		super(token, roomId);
 	}
 
 	/* (非 Javadoc)

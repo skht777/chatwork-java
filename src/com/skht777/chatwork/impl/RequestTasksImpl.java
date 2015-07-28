@@ -18,8 +18,11 @@ class RequestTasksImpl extends ChatworkRequest implements RequestTasks {
 
 	/**
 	 * 
+	 * @param token
+	 * @param roomId
 	 */
-	public RequestTasksImpl() {
+	protected RequestTasksImpl(APIToken token, int roomId) {
+		super(token, roomId);
 	}
 
 	/* (非 Javadoc)

@@ -14,8 +14,10 @@ class RequestMyStatusImpl extends ChatworkRequest implements RequestMyStatus {
 
 	/**
 	 * 
+	 * @param token
 	 */
-	public RequestMyStatusImpl() {
+	protected RequestMyStatusImpl(APIToken token) {
+		super(token);
 	}
 
 	/* (非 Javadoc)

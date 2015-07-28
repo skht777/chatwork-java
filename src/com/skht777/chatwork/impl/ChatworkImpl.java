@@ -11,7 +11,7 @@ import com.skht777.chatwork.NumberedRoomClient;
  * @author skht777
  *
  */
-class ChatworkImpl implements Chatwork {
+class ChatworkImpl implements Chatwork, APIToken {
 
 	private String token;
 
@@ -28,7 +28,7 @@ class ChatworkImpl implements Chatwork {
 	 */
 	@Override
 	public Client getClient() {
-		return null;
+		return new ClientImpl(this);
 	}
 
 	/*
@@ -37,7 +37,12 @@ class ChatworkImpl implements Chatwork {
 	 */
 	@Override
 	public NumberedRoomClient getRoomClient(int roomId) {
-		return null;
+		return new NumberedRoomClientImpl(this, roomId);
+	}
+
+	@Override
+	public String getToken() {
+		return token;
 	}
 
 }

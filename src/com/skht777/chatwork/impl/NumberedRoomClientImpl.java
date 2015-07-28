@@ -8,6 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.skht777.chatwork.NumberedRoomClient;
+import com.skht777.chatwork.RequestFiles;
+import com.skht777.chatwork.RequestMembers;
+import com.skht777.chatwork.RequestMessages;
+import com.skht777.chatwork.RequestNumberedRoom;
+import com.skht777.chatwork.RequestTasks;
 import com.skht777.chatwork.api.File;
 import com.skht777.chatwork.api.Member;
 import com.skht777.chatwork.api.Message;
@@ -22,16 +27,25 @@ import com.skht777.chatwork.parameter.Status;
  * @author skht777
  *
  */
-class NumberedRoomClientImpl extends ClientBase implements NumberedRoomClient {
+class NumberedRoomClientImpl implements NumberedRoomClient {
 
-	private int roomId;
+	RequestNumberedRoom requestNumberedRoom;
+	RequestMembers requestMembers; 
+	RequestMessages requestMessages;
+	RequestTasks requestTasks;
+	RequestFiles requestFiles;
 
 	/**
 	 * 
+	 * @param token
+	 * @param roomId
 	 */
-	NumberedRoomClientImpl(int roomId) {
-		super();
-		this.roomId = roomId;
+	NumberedRoomClientImpl(APIToken token, int roomId) {
+		requestNumberedRoom = new RequestNumberedRoomImpl(token, roomId);
+		requestMembers = new RequestMembersImpl(token, roomId);
+		requestMessages = new RequestMessagesImpl(token, roomId);
+		requestTasks = new RequestTasksImpl(token, roomId);
+		requestFiles = new RequestFilesImpl(token, roomId);
 	}
 
 	/* (非 Javadoc)
@@ -39,7 +53,7 @@ class NumberedRoomClientImpl extends ClientBase implements NumberedRoomClient {
 	 */
 	@Override
 	public NumberedRoom getRoom() {
-		return null;
+		return requestNumberedRoom.getRoom();
 	}
 
 	/* (非 Javadoc)
@@ -47,6 +61,7 @@ class NumberedRoomClientImpl extends ClientBase implements NumberedRoomClient {
 	 */
 	@Override
 	public void editRoom(String name, String description, IconPreset icon) {
+		requestNumberedRoom.editRoom(name, description, icon);
 	}
 
 	/* (非 Javadoc)
@@ -54,6 +69,7 @@ class NumberedRoomClientImpl extends ClientBase implements NumberedRoomClient {
 	 */
 	@Override
 	public void deleteRoom(ActionType action) {
+		requestNumberedRoom.deleteRoom(action);
 	}
 
 	/* (非 Javadoc)
@@ -62,7 +78,7 @@ class NumberedRoomClientImpl extends ClientBase implements NumberedRoomClient {
 	@Override
 	public Map<Role, List<Integer>> editMembers(int[] admins, int[] members,
 			int[] readOnlyMembers) {
-		return null;
+		return requestMembers.editMembers(admins, members, readOnlyMembers);
 	}
 
 	/* (非 Javadoc)
@@ -70,7 +86,7 @@ class NumberedRoomClientImpl extends ClientBase implements NumberedRoomClient {
 	 */
 	@Override
 	public List<Member> getMembers() {
-		return null;
+		return requestMembers.getMembers();
 	}
 
 	/* (非 Javadoc)
@@ -78,7 +94,7 @@ class NumberedRoomClientImpl extends ClientBase implements NumberedRoomClient {
 	 */
 	@Override
 	public Message createMessage(String body) {
-		return null;
+		return requestMessages.createMessage(body);
 	}
 
 	/* (非 Javadoc)
@@ -86,7 +102,7 @@ class NumberedRoomClientImpl extends ClientBase implements NumberedRoomClient {
 	 */
 	@Override
 	public List<Message> getMessages(boolean isForce) {
-		return null;
+		return requestMessages.getMessages(isForce);
 	}
 
 	/* (非 Javadoc)
@@ -94,7 +110,7 @@ class NumberedRoomClientImpl extends ClientBase implements NumberedRoomClient {
 	 */
 	@Override
 	public Message getMessage(int messageId) {
-		return null;
+		return requestMessages.getMessage(messageId);
 	}
 
 	/* (非 Javadoc)
@@ -111,7 +127,7 @@ class NumberedRoomClientImpl extends ClientBase implements NumberedRoomClient {
 	 */
 	@Override
 	public Task createTask(String body, int[] toIds, LocalDate limit) {
-		return null;
+		return requestTasks.createTask(body, toIds, limit);
 	}
 
 	/* (非 Javadoc)
@@ -119,7 +135,7 @@ class NumberedRoomClientImpl extends ClientBase implements NumberedRoomClient {
 	 */
 	@Override
 	public Task getTask(int taskId) {
-		return null;
+		return requestTasks.getTask(taskId);
 	}
 
 	/* (非 Javadoc)
@@ -127,7 +143,7 @@ class NumberedRoomClientImpl extends ClientBase implements NumberedRoomClient {
 	 */
 	@Override
 	public File getFile(int fileId, boolean isDownload) {
-		return null;
+		return requestFiles.getFile(fileId, isDownload);
 	}
 
 	/* (非 Javadoc)
@@ -135,7 +151,7 @@ class NumberedRoomClientImpl extends ClientBase implements NumberedRoomClient {
 	 */
 	@Override
 	public List<File> getFiles(int accountId) {
-		return null;
+		return requestFiles.getFiles(accountId);
 	}
 
 }

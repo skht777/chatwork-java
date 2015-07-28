@@ -17,8 +17,10 @@ class RequestMyTasksImpl extends ChatworkRequest implements RequestMyTasks {
 
 	/**
 	 * 
+	 * @param token
 	 */
-	public RequestMyTasksImpl() {
+	protected RequestMyTasksImpl(APIToken token) {
+		super(token);
 	}
 
 	/* (非 Javadoc)

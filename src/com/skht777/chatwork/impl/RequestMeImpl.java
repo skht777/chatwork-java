@@ -14,8 +14,10 @@ class RequestMeImpl extends ChatworkRequest implements RequestMe {
 
 	/**
 	 * 
+	 * @param token
 	 */
-	public RequestMeImpl() {
+	protected RequestMeImpl(APIToken token) {
+		super(token);
 	}
 
 	/* (非 Javadoc)

@@ -18,8 +18,11 @@ public class RequestMembersImpl extends ChatworkRequest implements RequestMember
 
 	/**
 	 * 
+	 * @param token
+	 * @param roomId
 	 */
-	public RequestMembersImpl() {
+	protected RequestMembersImpl(APIToken token, int roomId) {
+		super(token, roomId);
 	}
 
 	/* (非 Javadoc)

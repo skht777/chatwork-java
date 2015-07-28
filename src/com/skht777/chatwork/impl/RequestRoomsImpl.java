@@ -18,8 +18,10 @@ class RequestRoomsImpl extends ChatworkRequest implements RequestRooms {
 
 	/**
 	 * 
+	 * @param token
 	 */
-	public RequestRoomsImpl() {
+	protected RequestRoomsImpl(APIToken token) {
+		super(token);
 	}
 
 	/* (非 Javadoc)

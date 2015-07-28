@@ -7,6 +7,11 @@ import java.util.List;
 
 import com.skht777.chatwork.Client;
 import com.skht777.chatwork.NumberedRoomClient;
+import com.skht777.chatwork.RequestContacts;
+import com.skht777.chatwork.RequestMe;
+import com.skht777.chatwork.RequestMyStatus;
+import com.skht777.chatwork.RequestMyTasks;
+import com.skht777.chatwork.RequestRooms;
 import com.skht777.chatwork.api.Contact;
 import com.skht777.chatwork.api.Me;
 import com.skht777.chatwork.api.MyStatus;
@@ -19,13 +24,25 @@ import com.skht777.chatwork.parameter.Status;
  * @author skht777
  *
  */
-class ClientImpl extends ClientBase implements Client {
+class ClientImpl implements Client {
+
+	RequestMe me;
+	RequestMyTasks myTasks;
+	RequestMyStatus myStatus;
+	RequestContacts contacts;
+	RequestRooms rooms;
 
 	/**
 	 * 
+	 * @param token
 	 */
-	ClientImpl() {
+	ClientImpl(APIToken token) {
 		super();
+		me = new RequestMeImpl(token);
+		myTasks = new RequestMyTasksImpl(token);
+		myStatus = new RequestMyStatusImpl(token);
+		contacts = new RequestContactsImpl(token);
+		rooms = new RequestRoomsImpl(token);
 	}
 
 	/* (非 Javadoc)
@@ -33,7 +50,7 @@ class ClientImpl extends ClientBase implements Client {
 	 */
 	@Override
 	public Me getAccount() {
-		return null;
+		return me.getAccount();
 	}
 
 	/* (非 Javadoc)
@@ -41,7 +58,7 @@ class ClientImpl extends ClientBase implements Client {
 	 */
 	@Override
 	public List<MyTask> getMyTasks(int assignedByAccountId, Status status) {
-		return null;
+		return myTasks.getMyTasks(assignedByAccountId, status);
 	}
 
 	/* (非 Javadoc)
@@ -49,7 +66,7 @@ class ClientImpl extends ClientBase implements Client {
 	 */
 	@Override
 	public MyStatus getMyStatus() {
-		return null;
+		return myStatus.getMyStatus();
 	}
 
 	/* (非 Javadoc)
@@ -57,7 +74,7 @@ class ClientImpl extends ClientBase implements Client {
 	 */
 	@Override
 	public List<Contact> getContacts() {
-		return null;
+		return contacts.getContacts();
 	}
 
 	/* (非 Javadoc)
@@ -65,7 +82,7 @@ class ClientImpl extends ClientBase implements Client {
 	 */
 	@Override
 	public List<NumberedRoom> getRooms() {
-		return null;
+		return rooms.getRooms();
 	}
 
 	/* (非 Javadoc)
@@ -74,7 +91,7 @@ class ClientImpl extends ClientBase implements Client {
 	@Override
 	public NumberedRoomClient createRoom(String name, int[] admins, int[] members,
 			int[] readOnlyMembers, String description, IconPreset icon) {
-		return null;
+		return rooms.createRoom(name, admins, members, readOnlyMembers, description, icon);
 	}
 
 }
