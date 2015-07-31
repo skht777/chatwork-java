@@ -49,8 +49,8 @@ class ClientImpl implements Client {
 	 * @see com.skht777.chatwork.RequestMe#getAccount()
 	 */
 	@Override
-	public Me getAccount() {
-		return me.getAccount();
+	public Me getMyAccount() {
+		return me.getMyAccount();
 	}
 
 	/* (非 Javadoc)
