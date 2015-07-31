@@ -19,7 +19,7 @@ class RequestContactsImpl extends ChatworkRequest implements RequestContacts {
 	 * @param token
 	 */
 	RequestContactsImpl(APIToken token) {
-		super(token);
+		super(token, Endpoint.CONTACTS);
 	}
 
 	/* (非 Javadoc)
@@ -27,7 +27,7 @@ class RequestContactsImpl extends ChatworkRequest implements RequestContacts {
 	 */
 	@Override
 	public List<Contact> getContacts() {
-		return null;
+		return ResponseImpl.getContacts(get());
 	}
 
 }

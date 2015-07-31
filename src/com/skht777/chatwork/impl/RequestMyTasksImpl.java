@@ -20,7 +20,7 @@ class RequestMyTasksImpl extends ChatworkRequest implements RequestMyTasks {
 	 * @param token
 	 */
 	protected RequestMyTasksImpl(APIToken token) {
-		super(token);
+		super(token, Endpoint.MY_TASKS);
 	}
 
 	/* (非 Javadoc)
@@ -28,7 +28,7 @@ class RequestMyTasksImpl extends ChatworkRequest implements RequestMyTasks {
 	 */
 	@Override
 	public List<MyTask> getMyTasks(int assignedByAccountId, Status status) {
-		return null;
+		return ResponseImpl.getMyTasks(get(ParameterImpl.getMyTasks(assignedByAccountId, status)));
 	}
 
 }

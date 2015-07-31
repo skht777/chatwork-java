@@ -20,7 +20,7 @@ class RequestFilesImpl extends ChatworkRequest implements RequestFiles {
 	 * @param roomId
 	 */
 	protected RequestFilesImpl(APIToken token, int roomId) {
-		super(token, roomId);
+		super(token, Endpoint.FILES, roomId);
 	}
 
 	/* (非 Javadoc)
@@ -28,7 +28,7 @@ class RequestFilesImpl extends ChatworkRequest implements RequestFiles {
 	 */
 	@Override
 	public File getFile(int fileId, boolean isDownload) {
-		return null;
+		return ResponseImpl.getFile(get(fileId, ParameterImpl.getFile(isDownload)));
 	}
 
 	/* (非 Javadoc)
@@ -36,7 +36,7 @@ class RequestFilesImpl extends ChatworkRequest implements RequestFiles {
 	 */
 	@Override
 	public List<File> getFiles(int accountId) {
-		return null;
+		return ResponseImpl.getFiles(get(ParameterImpl.getFiles(accountId)));
 	}
 
 }

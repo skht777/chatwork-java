@@ -20,7 +20,7 @@ class RequestNumberedRoomImpl extends ChatworkRequest implements RequestNumbered
 	 * @param roomId
 	 */
 	protected RequestNumberedRoomImpl(APIToken token, int roomId) {
-		super(token, roomId);
+		super(token, Endpoint.ROOMS, roomId);
 	}
 
 	/* (非 Javadoc)
@@ -28,7 +28,7 @@ class RequestNumberedRoomImpl extends ChatworkRequest implements RequestNumbered
 	 */
 	@Override
 	public NumberedRoom getRoom() {
-		return null;
+		return ResponseImpl.getNumberdRoom(get());
 	}
 
 	/* (非 Javadoc)
@@ -36,6 +36,7 @@ class RequestNumberedRoomImpl extends ChatworkRequest implements RequestNumbered
 	 */
 	@Override
 	public void editRoom(String name, String description, IconPreset icon) {
+		put(ParameterImpl.editRoom(name, description, icon));
 	}
 
 	/* (非 Javadoc)
@@ -43,6 +44,7 @@ class RequestNumberedRoomImpl extends ChatworkRequest implements RequestNumbered
 	 */
 	@Override
 	public void deleteRoom(ActionType action) {
+		delete(ParameterImpl.deleteRoom(action));
 	}
 
 }

@@ -20,7 +20,7 @@ public class RequestMessagesImpl extends ChatworkRequest implements RequestMessa
 	 * @param roomId
 	 */
 	protected RequestMessagesImpl(APIToken token, int roomId) {
-		super(token, roomId);
+		super(token, Endpoint.MESSAGES, roomId);
 	}
 
 	/* (非 Javadoc)
@@ -28,7 +28,7 @@ public class RequestMessagesImpl extends ChatworkRequest implements RequestMessa
 	 */
 	@Override
 	public Message createMessage(String body) {
-		return null;
+		return ResponseImpl.createMessage(post(ParameterImpl.createMessage(body)));
 	}
 
 	/* (非 Javadoc)
@@ -36,7 +36,7 @@ public class RequestMessagesImpl extends ChatworkRequest implements RequestMessa
 	 */
 	@Override
 	public List<Message> getMessages(boolean isForce) {
-		return null;
+		return ResponseImpl.getMessages(get(ParameterImpl.getMessages(isForce)));
 	}
 
 	/* (非 Javadoc)
@@ -44,7 +44,7 @@ public class RequestMessagesImpl extends ChatworkRequest implements RequestMessa
 	 */
 	@Override
 	public Message getMessage(int messageId) {
-		return null;
+		return ResponseImpl.getMessage(get(messageId));
 	}
 
 }

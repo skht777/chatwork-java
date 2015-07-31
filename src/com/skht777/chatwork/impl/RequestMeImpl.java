@@ -17,15 +17,15 @@ class RequestMeImpl extends ChatworkRequest implements RequestMe {
 	 * @param token
 	 */
 	protected RequestMeImpl(APIToken token) {
-		super(token);
+		super(token, Endpoint.ME);
 	}
 
 	/* (非 Javadoc)
 	 * @see com.skht777.chatwork.RequestMe#getAccount()
 	 */
 	@Override
-	public Me getAccount() {
-		return null;
+	public Me getMyAccount() {
+		return ResponseImpl.getMyAccount(get());
 	}
 
 }

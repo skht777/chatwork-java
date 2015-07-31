@@ -22,16 +22,15 @@ class RequestTasksImpl extends ChatworkRequest implements RequestTasks {
 	 * @param roomId
 	 */
 	protected RequestTasksImpl(APIToken token, int roomId) {
-		super(token, roomId);
+		super(token, Endpoint.TASKS, roomId);
 	}
 
 	/* (非 Javadoc)
 	 * @see com.skht777.chatwork.RequestTasks#getTasks(int, int, com.skht777.chatwork.parameter.Status)
 	 */
 	@Override
-	public List<Task> getTasks(int accountId, int assignedByAccountId,
-			Status status) {
-		return null;
+	public List<Task> getTasks(int accountId, int assignedByAccountId, Status status) {
+		return ResponseImpl.getTasks(get(ParameterImpl.getTasks(accountId, assignedByAccountId, status)));
 	}
 
 	/* (非 Javadoc)
@@ -39,7 +38,7 @@ class RequestTasksImpl extends ChatworkRequest implements RequestTasks {
 	 */
 	@Override
 	public Task createTask(String body, int[] toIds, LocalDate limit) {
-		return null;
+		return ResponseImpl.createTask(post(ParameterImpl.createTask(body, toIds, limit)));
 	}
 
 	/* (非 Javadoc)
@@ -47,7 +46,7 @@ class RequestTasksImpl extends ChatworkRequest implements RequestTasks {
 	 */
 	@Override
 	public Task getTask(int taskId) {
-		return null;
+		return ResponseImpl.getTask(get(taskId));
 	}
 
 }

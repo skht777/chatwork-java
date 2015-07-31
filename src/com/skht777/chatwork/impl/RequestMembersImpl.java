@@ -22,16 +22,15 @@ public class RequestMembersImpl extends ChatworkRequest implements RequestMember
 	 * @param roomId
 	 */
 	protected RequestMembersImpl(APIToken token, int roomId) {
-		super(token, roomId);
+		super(token, Endpoint.MEMBERS, roomId);
 	}
 
 	/* (非 Javadoc)
 	 * @see com.skht777.chatwork.RequestMembers#editMembers(int[], int[], int[])
 	 */
 	@Override
-	public Map<Role, List<Integer>> editMembers(int[] admins, int[] members,
-			int[] readOnlyMembers) {
-		return null;
+	public Map<Role, List<Integer>> editMembers(int[] admins, int[] members, int[] readOnlyMembers) {
+		return ResponseImpl.editMembers(put(ParameterImpl.editMembers(admins, members, readOnlyMembers)));
 	}
 
 	/* (非 Javadoc)
@@ -39,7 +38,7 @@ public class RequestMembersImpl extends ChatworkRequest implements RequestMember
 	 */
 	@Override
 	public List<Member> getMembers() {
-		return null;
+		return ResponseImpl.getMembers(get());
 	}
 
 }

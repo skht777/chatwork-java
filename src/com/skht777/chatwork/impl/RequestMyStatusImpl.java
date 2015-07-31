@@ -17,7 +17,7 @@ class RequestMyStatusImpl extends ChatworkRequest implements RequestMyStatus {
 	 * @param token
 	 */
 	protected RequestMyStatusImpl(APIToken token) {
-		super(token);
+		super(token, Endpoint.MY_STATUS);
 	}
 
 	/* (非 Javadoc)
@@ -25,7 +25,7 @@ class RequestMyStatusImpl extends ChatworkRequest implements RequestMyStatus {
 	 */
 	@Override
 	public MyStatus getMyStatus() {
-		return null;
+		return ResponseImpl.getMyStatus(get());
 	}
 
 }
