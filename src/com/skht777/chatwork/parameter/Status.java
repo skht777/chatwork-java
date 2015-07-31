@@ -11,6 +11,7 @@ public enum Status {
 
 	OPEN, DONE;
 
+	@Override
 	public String toString() {
 		return super.toString().toLowerCase();
 	}

@@ -11,6 +11,7 @@ public enum Type {
 
 	MY, DIRECT, GROUP;
 
+	@Override
 	public String toString() {
 		return super.toString().toLowerCase();
 	}

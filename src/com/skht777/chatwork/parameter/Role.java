@@ -11,6 +11,7 @@ public enum Role {
 
 	ADMIN, MEMBER, READONLY;
 
+	@Override
 	public String toString() {
 		return super.toString().toLowerCase();
 	}

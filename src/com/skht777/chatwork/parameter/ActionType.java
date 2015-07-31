@@ -11,6 +11,7 @@ public enum ActionType {
 
 	LEAVE, DELETE;
 
+	@Override
 	public String toString() {
 		return super.toString().toLowerCase();
 	}
