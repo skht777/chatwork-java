@@ -3,6 +3,9 @@
  */
 package com.skht777.chatwork.impl;
 
+import org.apache.http.Header;
+import org.apache.http.message.BasicHeader;
+
 import com.skht777.chatwork.Chatwork;
 import com.skht777.chatwork.Client;
 import com.skht777.chatwork.NumberedRoomClient;
@@ -41,8 +44,8 @@ class ChatworkImpl implements Chatwork, APIToken {
 	}
 
 	@Override
-	public String getToken() {
-		return token;
+	public Header getToken() {
+		return new BasicHeader("X-ChatWorkToken", token);
 	}
 
 }

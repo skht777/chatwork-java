@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 enum Endpoint {
 
-	ME(), MY_STATUS(), MY_TASKS(), CONTACTS(), ROOMS(), MEMBERS(ROOMS), TASKS(ROOMS), FILES(ROOMS);
+	ME(), MY_STATUS(), MY_TASKS(), CONTACTS(), ROOMS(), MEMBERS(ROOMS), MESSAGES(ROOMS), TASKS(ROOMS), FILES(ROOMS);
 	
 	private static final String BASE = "https://api.chatwork.com/v1";
 	
