@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  */
 interface Files extends Account, MessageId {
 
-	int fileId();
+	int getFileId();
 
 	String getFileName();
 

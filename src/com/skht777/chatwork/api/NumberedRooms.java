@@ -21,7 +21,7 @@ interface NumberedRooms extends RoomAccount, Activity, Role {
 
 	int getFileNum();
 
-	int TaskNum();
+	int getTaskNum();
 
 	LocalDateTime getLastUpdateTime();
 

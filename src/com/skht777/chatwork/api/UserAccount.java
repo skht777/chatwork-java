@@ -13,6 +13,6 @@ public interface UserAccount extends Name {
 
 	int getAccountId();
 
-	URL AvatarImageUrl();
+	URL getAvatarImageUrl();
 
 }
