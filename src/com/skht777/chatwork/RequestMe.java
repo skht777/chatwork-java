@@ -12,6 +12,6 @@ import com.skht777.chatwork.api.Me;
  */
 public interface RequestMe {
 
-	Me getAccount();
+	Me getMyAccount();
 
 }
