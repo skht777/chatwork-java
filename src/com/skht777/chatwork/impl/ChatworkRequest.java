@@ -132,5 +132,9 @@ public class ChatworkRequest {
 			return null;
 		}
 	}
+	
+	APIToken getToken() {
+		return token;
+	}
 
 }

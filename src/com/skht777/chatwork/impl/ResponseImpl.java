@@ -3,23 +3,33 @@
  */
 package com.skht777.chatwork.impl;
 
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.skht777.chatwork.NumberedRoomClient;
 import com.skht777.chatwork.api.Contact;
 import com.skht777.chatwork.api.File;
+import com.skht777.chatwork.api.Files;
 import com.skht777.chatwork.api.Me;
 import com.skht777.chatwork.api.Member;
 import com.skht777.chatwork.api.Message;
+import com.skht777.chatwork.api.MessageId;
 import com.skht777.chatwork.api.MyStatus;
 import com.skht777.chatwork.api.MyTask;
 import com.skht777.chatwork.api.NumberedRoom;
+import com.skht777.chatwork.api.NumberedRooms;
 import com.skht777.chatwork.api.RoomAccount;
 import com.skht777.chatwork.api.Task;
 import com.skht777.chatwork.api.UserAccount;
@@ -147,7 +157,7 @@ class ResponseImpl implements Message, Task, MyTask, File, NumberedRoom, MyStatu
 
 	private int organizationId;
 
-	private int organizationName;
+	private String organizationName;
 
 	private String department;
 
@@ -191,292 +201,475 @@ class ResponseImpl implements Message, Task, MyTask, File, NumberedRoom, MyStatu
 
 	private JSONObject element;
 
+	private ResponseImpl(String response) {
+		element = new JSONObject(response);
+	}
+
 	private ResponseImpl(JSONObject element) {
 		this.element = element;
 	}
 
-	private static UserAccount getUserAccount(JSONObject element) {
-		ResponseImpl account = new ResponseImpl(element.getJSONObject(ResponseList.ACCOUNT.toString()));
-		account.setAccountId();
-		account.setName();
-		account.setAvatarImageUrl();
-		return account;
+	private int getInt(ResponseList response) {
+		return element.getInt(response.toString());
 	}
 
-	private static RoomAccount getRoomAccount(JSONObject element) {
-		ResponseImpl account = new ResponseImpl(element.getJSONObject(ResponseList.ACCOUNT.toString()));
-		account.setRoomId();
-		account.setName();
-		account.setIconPath();
-		return account;
+	private String getString(ResponseList response) {
+		return element.getString(response.toString());
 	}
 
-	static  Me getMyAccount(String response) {
-		return null;
+	private URL getURL(ResponseList response) {
+		try {
+			return new URL(getString(response));
+		}catch(MalformedURLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private LocalDateTime getDateTime(ResponseList response) {
+		return new Timestamp(getInt(response)).toLocalDateTime();
+	}
+
+	private boolean getBoolean(ResponseList response) {
+		return element.getBoolean(response.toString());
+	}
+	
+	private JSONObject getJSONObject(ResponseList response) {
+		return element.getJSONObject(response.toString());
+	}
+
+	private <T extends Enum<T>> T getEnum(ResponseList response, Class<T> e) {
+		return Enum.valueOf(e, getString(response).toUpperCase());
+	}
+
+	private static ResponseImpl createResponse(String response, Consumer<ResponseImpl> initializer) {
+		return createResponse(new JSONObject(response), initializer);
+	}
+
+	private static ResponseImpl createResponse(JSONObject response, Consumer<ResponseImpl> initializer) {
+		ResponseImpl res = new ResponseImpl(response);
+		initializer.accept(res);
+		return res;
+	}
+
+	private static <T> List<T> parseJSONArray(String response, Function<JSONObject, T> func) {
+		JSONArray array = new JSONArray(response);
+		List<T> list = new ArrayList<>();
+		array.forEach((o) -> list.add(func.apply((JSONObject) o)));
+		return list;
+	}
+	
+	private static List<Integer> parseJSONArray(JSONArray response) {
+		List<Integer> list = new ArrayList<>();
+		response.forEach(o -> list.add((Integer) o));
+		return list;
+	}
+
+	private static ResponseImpl getUserAccount(JSONObject response) {
+		return createResponse(response, (res) -> res
+				.setAccountId()
+				.setName()
+				.setAvatarImageUrl());
+	}
+
+	private static ResponseImpl getRoomAccount(JSONObject response) {
+		return createResponse(response, (res) -> res
+				.setRoomId()
+				.setName()
+				.setIconPath());
+	}
+	
+	private static ResponseImpl getTaskBase(JSONObject response) {
+		return createResponse(response, (res) -> res
+				.setTaskId()
+				.setAssignedByAccount()
+				.setMessageId()
+				.setBody()
+				.setLimitDate()
+				.setStatus());
+	}
+	
+	private static ResponseImpl getUser(JSONObject response) {
+		return getUserAccount(response)
+				.setChatworkId()
+				.setOrganizationId()
+				.setOrganizationName()
+				.setDepartment();
+	}
+
+	static Me getMyAccount(String response) {
+		return ((ResponseImpl) getContact(new JSONObject(response)))
+				.setTitle()
+				.setUrl()
+				.setIntroduction()
+				.setMail()
+				.setTelOrganization()
+				.setTelExtension()
+				.setTelMobile()
+				.setSkype()
+				.setFacebook()
+				.setTwitter();
+	}
+
+	private static MyTask getMyTask(JSONObject response) {
+		return getTaskBase(response).setRoom();
 	}
 
 	static List<MyTask> getMyTasks(String response) {
-		return null;
+		return parseJSONArray(response, o -> getMyTask(o));
 	}
 
 	static MyStatus getMyStatus(String response) {
-		return null;
+		return createResponse(response, (res) -> res
+				.setUnreadNum()
+				.setMentionNum()
+				.setMytaskNum()
+				.setUnreadRoomNum()
+				.setMentionRoomNum()
+				.setMytaskRoomNum());
+	}
+
+	private static Contact getContact(JSONObject response) {
+		return getUser(response).setRoomId();
 	}
 
 	static List<Contact> getContacts(String response) {
-		return null;
+		return parseJSONArray(response, o -> getContact(o));
 	}
 
-	static List<NumberedRoom> getRooms(String response) {
-		return null;
+	private static NumberedRooms getRoom(JSONObject response) {
+		return getRoomAccount(response)
+				.setRole()
+				.setUnreadNum()
+				.setMentionNum()
+				.setMytaskNum()
+				.setType()
+				.setSticky()
+				.setMessageNum()
+				.setFileNum()
+				.setTaskNum()
+				.setLastUpdateTime();
 	}
 
-	static NumberedRoomClient createRoom(String response) {
-		return null;
+	static List<NumberedRooms> getRooms(String response) {
+		return parseJSONArray(response, o -> getRoom(o));
+	}
+
+	static NumberedRoomClient createRoom(String response, APIToken token) {
+		return new NumberedRoomClientImpl(token, new ResponseImpl(response).setRoomId().getRoomId());
 	}
 
 	static NumberedRoom getNumberdRoom(String response) {
-		return null;
-	}
-
-	static void editRoom(String response) {
-	}
-
-	static void deleteRoom(String response) {
+		return ((ResponseImpl) getRoom(new JSONObject(response))).setDescription();
 	}
 
 	static Map<Role, List<Integer>> editMembers(String response) {
-		return null;
+		JSONObject obj = new JSONObject(response);
+		Map<Role, List<Integer>> map = new HashMap<>();
+		map.put(Role.ADMIN, parseJSONArray(obj.getJSONArray(ResponseList.ADMIN.toString())));
+		map.put(Role.MEMBER, parseJSONArray(obj.getJSONArray(ResponseList.MEMBER.toString())));
+		map.put(Role.READONLY, parseJSONArray(obj.getJSONArray(ResponseList.READONLY.toString())));
+		return map;
+	}
+
+	static Member getMember(JSONObject response) {
+		return getUser(response).setRole();
 	}
 
 	static List<Member> getMembers(String response) {
-		return null;
+		return parseJSONArray(response, o -> getMember(o));
 	}
 
-	static Message createMessage(String response) {
-		return null;
+	private static Message getMessage(JSONObject response) {
+		return createResponse(response, (res) -> res
+				.setMessageId()
+				.setAccount()
+				.setBody()
+				.setSendTime()
+				.setUpdateTime());
+	}
+
+	static MessageId createMessage(String response) {
+		return createResponse(response, (res) -> res.setMessageId());
 	}
 
 	static List<Message> getMessages(String response) {
-		return null;
+		return parseJSONArray(response, o -> getMessage(response));
 	}
 
 	static Message getMessage(String response) {
-		return null;
+		return getMessage(new JSONObject(response));
 	}
 
 	static List<Task> getTasks(String response) {
-		return null;
+		return parseJSONArray(response, o -> getTask(response));
 	}
 
-	static Task createTask(String response) {
-		return null;
+	static List<Integer> createTask(String response) {
+		return parseJSONArray(new JSONObject(response).getJSONArray(ResponseList.TASK_IDS.toString()));
 	}
 
 	static Task getTask(String response) {
-		return null;
+		return getTaskBase(new JSONObject(response)).setAccount();
 	}
 
 	static File getFile(String response) {
-		return null;
+		return ((ResponseImpl) getFile(new JSONObject(response))).setDownloadUrl();
 	}
 
-	static List<File> getFiles(String response) {
-		return null;
+	private static Files getFile(JSONObject response) {
+		return createResponse(response, (res) -> res
+				.setFileId()
+				.setAccount()
+				.setMessageId()
+				.setFileName()
+				.setFileSize()
+				.setUploadTime());
 	}
 
-	private void setMessageId() {
-		this.messageId = messageId;
+	static List<Files> getFiles(String response) {
+		return parseJSONArray(response, o -> getFile(response));
 	}
 
-	private void setAccount() {
-		this.account = ResponseImpl.getUserAccount(element);
+	private ResponseImpl setMessageId() {
+		this.messageId = getInt(ResponseList.MESSAGE_ID);
+		return this;
 	}
 
-	private void setBody() {
-		this.body = body;
+	private ResponseImpl setAccount() {
+		this.account = ResponseImpl.getUserAccount(getJSONObject(ResponseList.ACCOUNT));
+		return this;
 	}
 
-	private void setTaskId() {
-		this.taskId = taskId;
+	private ResponseImpl setBody() {
+		this.body = getString(ResponseList.BODY);
+		return this;
 	}
 
-	private void setLimitDate() {
-		this.limitDate = limitDate;
+	private ResponseImpl setTaskId() {
+		this.taskId = getInt(ResponseList.TASK_ID);
+		return this;
 	}
 
-	private void setStatus() {
-		this.status = status;
+	private ResponseImpl setLimitDate() {
+		this.limitDate = getDateTime(ResponseList.LIMIT_TIME).toLocalDate();
+		return this;
 	}
 
-	private void setAssignedByAccount() {
-		this.assignedByAccount = assignedByAccount;
+	private ResponseImpl setStatus() {
+		this.status = getEnum(ResponseList.STATUS, Status.class);
+		return this;
 	}
 
-	private void setRoom() {
-		this.room = ResponseImpl.getRoomAccount(element);
+	private ResponseImpl setAssignedByAccount() {
+		this.assignedByAccount = ResponseImpl.getUserAccount(getJSONObject(ResponseList.ASSIGNED_BY_ACCOUNT));
+		return this;
 	}
 
-	private void setFileId() {
-		this.fileId = fileId;
+	private ResponseImpl setRoom() {
+		this.room = ResponseImpl.getRoomAccount(getJSONObject(ResponseList.ROOM));
+		return this;
 	}
 
-	private void setFileName() {
-		this.fileName = fileName;
+	private ResponseImpl setFileId() {
+		this.fileId = getInt(ResponseList.FILE_ID);
+		return this;
 	}
 
-	private void setFileSize() {
-		this.fileSize = fileSize;
+	private ResponseImpl setFileName() {
+		this.fileName = getString(ResponseList.FILENAME);
+		return this;
 	}
 
-	private void setUploadTime() {
-		this.uploadTime = uploadTime;
+	private ResponseImpl setFileSize() {
+		this.fileSize = getInt(ResponseList.FILESIZE);
+		return this;
 	}
 
-	private void setType() {
-		this.type = type;
+	private ResponseImpl setUploadTime() {
+		this.uploadTime = getDateTime(ResponseList.UPLOAD_TIME);
+		return this;
 	}
 
-	private void setSticky() {
-		this.sticky = sticky;
+	private ResponseImpl setType() {
+		this.type = getEnum(ResponseList.TYPE, Type.class);
+		return this;
 	}
 
-	private void setMessageNum() {
-		this.messageNum = messageNum;
+	private ResponseImpl setSticky() {
+		this.sticky = getBoolean(ResponseList.STICKY);
+		return this;
 	}
 
-	private void setFileNum() {
-		this.fileNum = fileNum;
+	private ResponseImpl setMessageNum() {
+		this.messageNum = getInt(ResponseList.MESSAGE_NUM);
+		return this;
 	}
 
-	private void setTaskNum() {
-		this.taskNum = taskNum;
+	private ResponseImpl setFileNum() {
+		this.fileNum = getInt(ResponseList.FILE_NUM);
+		return this;
 	}
 
-	private void setLastUpdateTime() {
-		this.lastUpdateTime = lastUpdateTime;
+	private ResponseImpl setTaskNum() {
+		this.taskNum = getInt(ResponseList.TASK_NUM);
+		return this;
 	}
 
-	private void setIconPath() {
-		this.iconPath = iconPath;
+	private ResponseImpl setLastUpdateTime() {
+		this.lastUpdateTime = getDateTime(ResponseList.LAST_UPDATE_TIME);
+		return this;
 	}
 
-	private void setRoomId() {
-		this.roomId = roomId;
+	private ResponseImpl setIconPath() {
+		this.iconPath = getURL(ResponseList.ICON_PATH);
+		return this;
 	}
 
-	private void setName() {
-		this.name = name;
+	private ResponseImpl setRoomId() {
+		this.roomId = getInt(ResponseList.ROOM_ID);
+		return this;
 	}
 
-	private void setUnreadNum() {
-		this.unreadNum = unreadNum;
+	private ResponseImpl setName() {
+		this.name = getString(ResponseList.NAME);
+		return this;
 	}
 
-	private void setMentionNum() {
-		this.mentionNum = mentionNum;
+	private ResponseImpl setUnreadNum() {
+		this.unreadNum = getInt(ResponseList.UNREAD_NUM);
+		return this;
 	}
 
-	private void setMytaskNum() {
-		this.mytaskNum = mytaskNum;
+	private ResponseImpl setMentionNum() {
+		this.mentionNum = getInt(ResponseList.MENTION_NUM);
+		return this;
 	}
 
-	private void setRole() {
-		this.role = role;
+	private ResponseImpl setMytaskNum() {
+		this.mytaskNum = getInt(ResponseList.MYTASK_NUM);
+		return this;
 	}
 
-	private void setChatworkId() {
-		this.chatworkId = chatworkId;
+	private ResponseImpl setRole() {
+		this.role = getEnum(ResponseList.ROLE, Role.class);
+		return this;
 	}
 
-	private void setOrganizationId() {
-		this.organizationId = organizationId;
+	private ResponseImpl setChatworkId() {
+		this.chatworkId = getInt(ResponseList.CHATWORK_ID);
+		return this;
 	}
 
-	private void setOrganizationName() {
-		this.organizationName = organizationName;
+	private ResponseImpl setOrganizationId() {
+		this.organizationId = getInt(ResponseList.ORGANIZATION_ID);
+		return this;
 	}
 
-	private void setDepartment() {
-		this.department = department;
+	private ResponseImpl setOrganizationName() {
+		this.organizationName = getString(ResponseList.ORGANIZATION_NAME);
+		return this;
 	}
 
-	private void setAccountId() {
-		this.accountId = accountId;
+	private ResponseImpl setDepartment() {
+		this.department = getString(ResponseList.DEPARTMENT);
+		return this;
 	}
 
-	private void setAvatarImageUrl() {
-		this.avatarImageUrl = avatarImageUrl;
+	private ResponseImpl setAccountId() {
+		this.accountId = getInt(ResponseList.ACCOUNT_ID);
+		return this;
 	}
 
-	private void setTitle() {
-		this.title = title;
+	private ResponseImpl setAvatarImageUrl() {
+		this.avatarImageUrl = getURL(ResponseList.AVATAR_IMAGE_URL);
+		return this;
 	}
 
-	private void setUrl() {
-		this.url = url;
+	private ResponseImpl setTitle() {
+		this.title = getString(ResponseList.TITLE);
+		return this;
 	}
 
-	private void setIntroduction() {
-		this.introduction = introduction;
+	private ResponseImpl setUrl() {
+		this.url = getURL(ResponseList.URL);
+		return this;
 	}
 
-	private void setMail() {
-		this.mail = mail;
+	private ResponseImpl setIntroduction() {
+		this.introduction = getString(ResponseList.INTRODUCTION);
+		return this;
 	}
 
-	private void setTelOrganization() {
-		this.telOrganization = telOrganization;
+	private ResponseImpl setMail() {
+		this.mail = getString(ResponseList.MAIL);
+		return this;
 	}
 
-	private void setTelExtension() {
-		this.telExtension = telExtension;
+	private ResponseImpl setTelOrganization() {
+		this.telOrganization = getString(ResponseList.TEL_ORGANIZATION);
+		return this;
 	}
 
-	private void setTelMobile() {
-		this.telMobile = telMobile;
+	private ResponseImpl setTelExtension() {
+		this.telExtension = getString(ResponseList.TEL_EXTENSION);
+		return this;
 	}
 
-	private void setSkype() {
-		this.skype = skype;
+	private ResponseImpl setTelMobile() {
+		this.telMobile = getString(ResponseList.TEL_MOBILE);
+		return this;
 	}
 
-	private void setFacebook() {
-		this.facebook = facebook;
+	private ResponseImpl setSkype() {
+		this.skype = getString(ResponseList.SKYPE);
+		return this;
 	}
 
-	private void setTwitter() {
-		this.twitter = twitter;
+	private ResponseImpl setFacebook() {
+		this.facebook = getString(ResponseList.FACEBOOK);
+		return this;
 	}
 
-	private void setUnreadRoomNum() {
-		this.unreadRoomNum = unreadRoomNum;
+	private ResponseImpl setTwitter() {
+		this.twitter = getString(ResponseList.TWITTER);
+		return this;
 	}
 
-	private void setMentionRoomNum() {
-		this.mentionRoomNum = mentionRoomNum;
+	private ResponseImpl setUnreadRoomNum() {
+		this.unreadRoomNum = getInt(ResponseList.UNREAD_ROOM_NUM);
+		return this;
 	}
 
-	private void setMytaskRoomNum() {
-		this.mytaskRoomNum = mytaskRoomNum;
+	private ResponseImpl setMentionRoomNum() {
+		this.mentionRoomNum = getInt(ResponseList.MENTION_ROOM_NUM);
+		return this;
 	}
 
-	private void setDescription() {
-		this.description = description;
+	private ResponseImpl setMytaskRoomNum() {
+		this.mytaskRoomNum = getInt(ResponseList.MYTASK_ROOM_NUM);
+		return this;
 	}
 
-	private void setDownloadUrl() {
-		this.downloadUrl = downloadUrl;
+	private ResponseImpl setDescription() {
+		this.description = getString(ResponseList.DESCRIPTION);
+		return this;
 	}
 
-	private void setSendTime() {
-		this.sendTime = sendTime;
+	private ResponseImpl setDownloadUrl() {
+		this.downloadUrl = getURL(ResponseList.DOWNLOAD_URL);
+		return this;
 	}
 
-	private void setUpdateTime() {
-		this.updateTime = updateTime;
+	private ResponseImpl setSendTime() {
+		this.sendTime = getDateTime(ResponseList.SEND_TIME);
+		return this;
 	}
 
+	private ResponseImpl setUpdateTime() {
+		this.updateTime = getDateTime(ResponseList.UPDATE_TIME);
+		return this;
+	}
 
 	@Override
 	public int getMessageId() {
@@ -544,7 +737,7 @@ class ResponseImpl implements Message, Task, MyTask, File, NumberedRoom, MyStatu
 	}
 
 	@Override
-	public boolean getSticky() {
+	public boolean isSticky() {
 		return sticky;
 	}
 
@@ -614,7 +807,7 @@ class ResponseImpl implements Message, Task, MyTask, File, NumberedRoom, MyStatu
 	}
 
 	@Override
-	public int getOrganizationName() {
+	public String getOrganizationName() {
 		return organizationName;
 	}
 

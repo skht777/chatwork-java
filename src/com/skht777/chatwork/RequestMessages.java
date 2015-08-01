@@ -6,6 +6,7 @@ package com.skht777.chatwork;
 import java.util.List;
 
 import com.skht777.chatwork.api.Message;
+import com.skht777.chatwork.api.MessageId;
 
 /**
  * @author skht777
@@ -13,7 +14,7 @@ import com.skht777.chatwork.api.Message;
  */
 public interface RequestMessages {
 
-	Message createMessage(String body);
+	MessageId createMessage(String body);
 
 	List<Message> getMessages(boolean isForce);
 

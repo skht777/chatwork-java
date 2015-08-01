@@ -17,7 +17,7 @@ public interface RequestTasks {
 
 	List<Task> getTasks(int accountId, int assignedByAccountId, Status status);
 
-	Task createTask(String body, int[] toIds, LocalDate limit);
+	List<Integer> createTask(String body, int[] toIds, LocalDate limit);
 
 	Task getTask(int taskId);
 

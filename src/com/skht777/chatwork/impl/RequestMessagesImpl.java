@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.skht777.chatwork.RequestMessages;
 import com.skht777.chatwork.api.Message;
+import com.skht777.chatwork.api.MessageId;
 
 /**
  * @author skht777
@@ -27,7 +28,7 @@ public class RequestMessagesImpl extends ChatworkRequest implements RequestMessa
 	 * @see com.skht777.chatwork.RequestMessages#createMessage(java.lang.String)
 	 */
 	@Override
-	public Message createMessage(String body) {
+	public MessageId createMessage(String body) {
 		return ResponseImpl.createMessage(post(ParameterImpl.createMessage(body)));
 	}
 

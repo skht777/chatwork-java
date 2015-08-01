@@ -11,15 +11,8 @@ import com.skht777.chatwork.Chatwork;
  */
 public class ChatworkFactory {
 
-	private static ChatworkImpl chatwork;
-	
-	static {
-		chatwork = null;
-	}
-	
 	public static Chatwork createInstance(String token){
-		if(chatwork == null) chatwork = new ChatworkImpl(token);
-		return chatwork;
+		return new ChatworkImpl(token);
 	}
 
 }

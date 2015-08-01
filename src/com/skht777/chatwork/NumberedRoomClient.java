@@ -68,7 +68,7 @@ public interface NumberedRoomClient extends RequestNumberedRoom, RequestMembers,
 		return getTasks(0, assignedByAccountId, status);
 	}
 
-	default Task createTask(String body, int[] toIds) {
+	default List<Integer> createTask(String body, int[] toIds) {
 		return createTask(body, toIds, null);	
 	}
 

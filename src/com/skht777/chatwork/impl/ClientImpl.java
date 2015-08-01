@@ -16,7 +16,6 @@ import com.skht777.chatwork.api.Contact;
 import com.skht777.chatwork.api.Me;
 import com.skht777.chatwork.api.MyStatus;
 import com.skht777.chatwork.api.MyTask;
-import com.skht777.chatwork.api.NumberedRoom;
 import com.skht777.chatwork.api.NumberedRooms;
 import com.skht777.chatwork.parameter.IconPreset;
 import com.skht777.chatwork.parameter.Status;

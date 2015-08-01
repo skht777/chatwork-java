@@ -17,6 +17,7 @@ import com.skht777.chatwork.api.File;
 import com.skht777.chatwork.api.Files;
 import com.skht777.chatwork.api.Member;
 import com.skht777.chatwork.api.Message;
+import com.skht777.chatwork.api.MessageId;
 import com.skht777.chatwork.api.NumberedRoom;
 import com.skht777.chatwork.api.Task;
 import com.skht777.chatwork.parameter.ActionType;
@@ -94,7 +95,7 @@ class NumberedRoomClientImpl implements NumberedRoomClient {
 	 * @see com.skht777.chatwork.RequestMessages#createMessage(java.lang.String)
 	 */
 	@Override
-	public Message createMessage(String body) {
+	public MessageId createMessage(String body) {
 		return requestMessages.createMessage(body);
 	}
 
@@ -127,7 +128,7 @@ class NumberedRoomClientImpl implements NumberedRoomClient {
 	 * @see com.skht777.chatwork.RequestTasks#createTask(java.lang.String, int[], java.time.LocalDate)
 	 */
 	@Override
-	public Task createTask(String body, int[] toIds, LocalDate limit) {
+	public List<Integer> createTask(String body, int[] toIds, LocalDate limit) {
 		return requestTasks.createTask(body, toIds, limit);
 	}
 

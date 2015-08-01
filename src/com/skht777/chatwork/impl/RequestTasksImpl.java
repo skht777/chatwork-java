@@ -37,7 +37,7 @@ class RequestTasksImpl extends ChatworkRequest implements RequestTasks {
 	 * @see com.skht777.chatwork.RequestTasks#createTask(java.lang.String, int[], java.time.LocalDate)
 	 */
 	@Override
-	public Task createTask(String body, int[] toIds, LocalDate limit) {
+	public List<Integer> createTask(String body, int[] toIds, LocalDate limit) {
 		return ResponseImpl.createTask(post(ParameterImpl.createTask(body, toIds, limit)));
 	}
 
