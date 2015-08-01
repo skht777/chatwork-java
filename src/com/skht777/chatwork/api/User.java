@@ -13,7 +13,7 @@ interface User extends UserAccount {
 
 	int getOrganizationId();
 
-	int getOrganizationName();
+	String getOrganizationName();
 
 	String getDepartment();
 

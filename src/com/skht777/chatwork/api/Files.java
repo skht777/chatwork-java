@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * @author skht777
  *
  */
-interface Files extends Account, MessageId {
+public interface Files extends Account, MessageId {
 
 	int getFileId();
 

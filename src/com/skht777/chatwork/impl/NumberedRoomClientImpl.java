@@ -14,6 +14,7 @@ import com.skht777.chatwork.RequestMessages;
 import com.skht777.chatwork.RequestNumberedRoom;
 import com.skht777.chatwork.RequestTasks;
 import com.skht777.chatwork.api.File;
+import com.skht777.chatwork.api.Files;
 import com.skht777.chatwork.api.Member;
 import com.skht777.chatwork.api.Message;
 import com.skht777.chatwork.api.NumberedRoom;
@@ -150,7 +151,7 @@ class NumberedRoomClientImpl implements NumberedRoomClient {
 	 * @see com.skht777.chatwork.RequestFiles#getFiles(int)
 	 */
 	@Override
-	public List<File> getFiles(int accountId) {
+	public List<Files> getFiles(int accountId) {
 		return requestFiles.getFiles(accountId);
 	}
 

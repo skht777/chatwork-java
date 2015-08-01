@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.skht777.chatwork.api.File;
+import com.skht777.chatwork.api.Files;
 import com.skht777.chatwork.api.Message;
 import com.skht777.chatwork.api.Task;
 import com.skht777.chatwork.parameter.IconPreset;
@@ -71,7 +72,7 @@ public interface NumberedRoomClient extends RequestNumberedRoom, RequestMembers,
 		return createTask(body, toIds, null);	
 	}
 
-	default List<File> getFiles() {
+	default List<Files> getFiles() {
 		return getFiles(0);
 	}
 

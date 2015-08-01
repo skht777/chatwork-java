@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.skht777.chatwork.RequestFiles;
 import com.skht777.chatwork.api.File;
+import com.skht777.chatwork.api.Files;
 
 /**
  * @author skht777
@@ -35,7 +36,7 @@ class RequestFilesImpl extends ChatworkRequest implements RequestFiles {
 	 * @see com.skht777.chatwork.RequestFiles#getFiles(int)
 	 */
 	@Override
-	public List<File> getFiles(int accountId) {
+	public List<Files> getFiles(int accountId) {
 		return ResponseImpl.getFiles(get(ParameterImpl.getFiles(accountId)));
 	}
 

@@ -11,11 +11,11 @@ import com.skht777.chatwork.parameter.Type;
  * @author skht777
  *
  */
-interface NumberedRooms extends RoomAccount, Activity, Role {
+public interface NumberedRooms extends RoomAccount, Activity, Role {
 
 	Type getType();
 
-	boolean getSticky();
+	boolean isSticky();
 
 	int getMessageNum();
 

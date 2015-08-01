@@ -8,6 +8,7 @@ import java.util.List;
 import com.skht777.chatwork.NumberedRoomClient;
 import com.skht777.chatwork.RequestRooms;
 import com.skht777.chatwork.api.NumberedRoom;
+import com.skht777.chatwork.api.NumberedRooms;
 import com.skht777.chatwork.parameter.IconPreset;
 
 /**
@@ -28,7 +29,7 @@ class RequestRoomsImpl extends ChatworkRequest implements RequestRooms {
 	 * @see com.skht777.chatwork.RequestRooms#getRooms()
 	 */
 	@Override
-	public List<NumberedRoom> getRooms() {
+	public List<NumberedRooms> getRooms() {
 		return ResponseImpl.getRooms(get());
 	}
 

@@ -17,6 +17,7 @@ import com.skht777.chatwork.api.Me;
 import com.skht777.chatwork.api.MyStatus;
 import com.skht777.chatwork.api.MyTask;
 import com.skht777.chatwork.api.NumberedRoom;
+import com.skht777.chatwork.api.NumberedRooms;
 import com.skht777.chatwork.parameter.IconPreset;
 import com.skht777.chatwork.parameter.Status;
 
@@ -81,7 +82,7 @@ class ClientImpl implements Client {
 	 * @see com.skht777.chatwork.RequestRooms#getRooms()
 	 */
 	@Override
-	public List<NumberedRoom> getRooms() {
+	public List<NumberedRooms> getRooms() {
 		return rooms.getRooms();
 	}
 
