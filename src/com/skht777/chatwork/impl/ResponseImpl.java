@@ -153,7 +153,7 @@ class ResponseImpl implements Message, Task, MyTask, File, NumberedRoom, MyStatu
 
 	private Role role;
 
-	private int chatworkId;
+	private String chatworkId;
 
 	private int organizationId;
 
@@ -167,7 +167,7 @@ class ResponseImpl implements Message, Task, MyTask, File, NumberedRoom, MyStatu
 
 	private String title;
 
-	private URL url;
+	private String url;
 
 	private String introduction;
 
@@ -219,7 +219,8 @@ class ResponseImpl implements Message, Task, MyTask, File, NumberedRoom, MyStatu
 
 	private URL getURL(ResponseList response) {
 		try {
-			return new URL(getString(response));
+			String url = getString(response);
+			return new URL(url);
 		}catch(MalformedURLException e) {
 			e.printStackTrace();
 			return null;
@@ -557,7 +558,7 @@ class ResponseImpl implements Message, Task, MyTask, File, NumberedRoom, MyStatu
 	}
 
 	private ResponseImpl setChatworkId() {
-		this.chatworkId = getInt(ResponseList.CHATWORK_ID);
+		this.chatworkId = getString(ResponseList.CHATWORK_ID);
 		return this;
 	}
 
@@ -592,7 +593,7 @@ class ResponseImpl implements Message, Task, MyTask, File, NumberedRoom, MyStatu
 	}
 
 	private ResponseImpl setUrl() {
-		this.url = getURL(ResponseList.URL);
+		this.url = getString(ResponseList.URL);
 		return this;
 	}
 
@@ -797,7 +798,7 @@ class ResponseImpl implements Message, Task, MyTask, File, NumberedRoom, MyStatu
 	}
 
 	@Override
-	public int getChatworkId() {
+	public String getChatworkId() {
 		return chatworkId;
 	}
 
@@ -832,7 +833,7 @@ class ResponseImpl implements Message, Task, MyTask, File, NumberedRoom, MyStatu
 	}
 
 	@Override
-	public URL getUrl() {
+	public String getUrl() {
 		return url;
 	}
 

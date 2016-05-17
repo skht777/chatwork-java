@@ -9,7 +9,7 @@ package com.skht777.chatwork.api;
  */
 interface User extends UserAccount {
 
-	int getChatworkId();
+	String getChatworkId();
 
 	int getOrganizationId();
 
