@@ -1,7 +1,13 @@
 /**
- * 
+ *
  */
 package com.skht777.chatwork.impl;
+
+import com.skht777.chatwork.parameter.ActionType;
+import com.skht777.chatwork.parameter.IconPreset;
+import com.skht777.chatwork.parameter.Status;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -9,14 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
-import com.skht777.chatwork.parameter.ActionType;
-import com.skht777.chatwork.parameter.IconPreset;
-import com.skht777.chatwork.parameter.Status;
 
 /**
  * @author skht777
@@ -24,41 +22,58 @@ import com.skht777.chatwork.parameter.Status;
  */
 class ParameterImpl {
 
-	private enum ParameterList {
+    private enum ParameterOperator {
 
-		ACCOUNT_ID(ParameterList.num),
-		ASSIGNED_BY_ACCOUNT_ID(ParameterList.num),
-		STATUS(ParameterList.obj),
-		DESCRIPTION(ParameterList.obj),
-		ICON_PRESET(ParameterList.obj),
-		NAME(ParameterList.obj),
-		MEMBERS_ADMIN_IDS(ParameterList.nums),
-		MEMBERS_MEMBER_IDS(ParameterList.nums),
-		MEMBERS_READONLY_IDS(ParameterList.nums),
-		ACTION_TYPE(ParameterList.obj),
-		FORCE(ParameterList.bit),
-		BODY(ParameterList.obj),
-		LIMIT(ParameterList.date),
-		TO_IDS(ParameterList.nums),
-		CREATE_DOWNLOAD_URL(ParameterList.bit);
-		
+        OBJECT(Object::toString),
+        NUMBERS((int[] v) -> Arrays.stream(v).mapToObj(String::valueOf).collect(Collectors.joining(","))),
+        BIT((Boolean v) -> v ? "1" : "0"),
+        DATE((LocalDate v) -> Timestamp.valueOf(v.atStartOfDay()).toString());
+
 		private Function<Object, String> func;
-		
-		private static final Function<Object, String> obj = (value) -> String.valueOf(value);
-		private static final Function<Object, String> num = (value) -> String.valueOf((int) value);
-		private static final Function<Object, String> bit = (value) -> (boolean) value ? "1" : "0";
-		private static final Function<Object, String> nums = (value) -> IntStream.of((int[]) value).mapToObj(String::valueOf).collect(Collectors.joining(","));
-		private static final Function<Object, String> date = (value) -> Timestamp.valueOf(((LocalDate) value).atStartOfDay()).toString();
-		
-		private ParameterList(Function<Object, String> func) {
-			this.func = func;
-		}
-		
+
+        ParameterOperator(Function<?, String> func) {
+            this.func = (Function<Object, String>) func;
+        }
+
+        private String apply(Object o) {
+            return func.apply(o);
+        }
+
+    }
+
+    private enum ParameterList {
+
+        ACCOUNT_ID(),
+        ASSIGNED_BY_ACCOUNT_ID(),
+        STATUS(),
+        DESCRIPTION(),
+        ICON_PRESET(),
+        NAME(),
+        MEMBERS_ADMIN_IDS(ParameterOperator.NUMBERS),
+        MEMBERS_MEMBER_IDS(ParameterOperator.NUMBERS),
+        MEMBERS_READONLY_IDS(ParameterOperator.NUMBERS),
+        ACTION_TYPE(),
+        FORCE(ParameterOperator.BIT),
+        BODY(),
+        LIMIT(ParameterOperator.DATE),
+        TO_IDS(ParameterOperator.NUMBERS),
+        CREATE_DOWNLOAD_URL(ParameterOperator.BIT);
+
+        private ParameterOperator po;
+
+        ParameterList() {
+            po = ParameterOperator.OBJECT;
+        }
+
+        ParameterList(ParameterOperator po) {
+            this.po = po;
+        }
+
 		private NameValuePair create(Object value) {
-			return new BasicNameValuePair(toString().toLowerCase(), value == null || (int) value == 0 ? null : func.apply(value));
-		}
-		
-		private static List<NameValuePair> of(NameValuePair... args) {
+            return new BasicNameValuePair(toString().toLowerCase(), value == null || (int) value == 0 ? null : po.apply(value));
+        }
+
+        private static List<NameValuePair> of(NameValuePair... args) {
 			return Arrays.asList(args).stream().filter(p -> p.getValue() != null).collect(Collectors.toList());
 		}
 
@@ -79,8 +94,8 @@ class ParameterImpl {
 				ParameterList.DESCRIPTION.create(description),
 				ParameterList.ICON_PRESET.create(icon));
 	}
-	
-	static List<NameValuePair> editRoom(String name, String description, IconPreset icon) {
+
+    static List<NameValuePair> editRoom(String name, String description, IconPreset icon) {
 		return ParameterList.of(
 				ParameterList.NAME.create(name),
 				ParameterList.DESCRIPTION.create(description),
